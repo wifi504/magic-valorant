@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build:weapp": "rimraf dist && cross-env NODE_ENV=production taro build --type weapp",
-    "dev:weapp": "npm run build:weapp -- --watch",
+    "dev:weapp": "rimraf dist && taro build --type weapp --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "build:swan": "taro build --type swan",
@@ -51,6 +51,7 @@
     "@tarojs/runtime": "4.1.7",
     "@tarojs/shared": "4.1.7",
     "@tarojs/taro": "4.1.7",
+    "pinia": "^3.0.3",
     "vue": "^3.3.0"
   },
   "devDependencies": {

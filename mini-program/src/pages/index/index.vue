@@ -1,16 +1,16 @@
 <template>
-  <view class="index-6146534">
-    <text class="title">
+  <view :class="$style.index">
+    <text :class="$style.title">
       「妙瓦」Magic Valorant
     </text>
-    <text class="p">
+    <text :class="$style.p">
       无畏契约道具点位小助手，难道你真的是赋能哥？
     </text>
-    <view class="hr" />
-    <text class="p">
+    <view :class="$style.hr" />
+    <text :class="$style.p">
       能在短短的开局十秒时间为任何玩家提供各类点位的有效辅助提示，就像点了一个赋能陪玩手把手教你放技能一样。
     </text>
-    <text class="p">
+    <text :class="$style.p">
       项目目前正在企划，敬请期待...
     </text>
     <nut-button type="primary" @click="onClick">
@@ -20,7 +20,7 @@
   </view>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { ref } from 'vue'
 
 const show = ref(false)
@@ -30,8 +30,8 @@ function onClick() {
 }
 </script>
 
-<style lang="less">
-.index-6146534 {
+<style module lang="less">
+.index {
   margin-top: 40vh;
   transform: translateY(-50%);
   padding: 35px;
