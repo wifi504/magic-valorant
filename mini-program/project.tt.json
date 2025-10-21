@@ -1,0 +1,13 @@
+{
+  "miniprogramRoot": "./",
+  "projectname": "mini-program",
+  "description": "妙瓦小程序源码",
+  "appid": "wxb23004ff467b5a4e",
+  "setting": {
+    "urlCheck": true,
+    "es6": false,
+    "postcss": false,
+    "minified": false
+  },
+  "compileType": "miniprogram"
+}
