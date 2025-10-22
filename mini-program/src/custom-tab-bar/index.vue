@@ -23,7 +23,7 @@
       <view v-else :class="$style['normal-item-wrapper']" @tap="onClick(index)">
         <view :class="[$style.text, tabbarStore.selected !== index && $style.translucent]">
           <text>{{ page.text }}</text>
-          <image v-if="tabbarStore.selected === index" style="width: 26px;height: 26px;" src="@/assets/image/sight.svg" />
+          <image v-if="tabbarStore.selected === index" style="width: 16px;height: 16px;" src="@/assets/image/sight.svg" />
         </view>
         <view :class="[$style.border, tabbarStore.selected !== index && $style.translucent]" />
         <view :class="[$style.dot, tabbarStore.selected !== index && $style.translucent]" />
@@ -84,6 +84,7 @@ function onClick(index: number) {
       display: flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
     }
 
     // 往里缩的边框
