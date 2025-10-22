@@ -1,27 +1,45 @@
 <template>
   <view :class="$style['mv-tabbar']">
     <view :class="$style.hr" />
-    <template v-for="page in tabbarStore.list" :key="page.pagePath">
-      <view v-if="page.text === '开始'" :class="$style['main-item-wrapper']">
+    <template v-for="(page, index) in tabbarStore.list" :key="index">
+      <view
+        v-if="page.text === '开始'"
+        :class="$style['main-item-wrapper']"
+        :style="{
+          backgroundColor: tabbarStore.selected === index ? '#101A24' : '#ff4655',
+        }"
+        @tap="onClick(index)"
+      >
         <view :class="$style.text">
-          开始
+          <text v-if="tabbarStore.selected === index">
+            {{ page.textActive }}
+          </text>
+          <text v-else>
+            {{ page.text }}
+          </text>
         </view>
         <view :class="$style.border" />
       </view>
-      <view v-else :class="$style['normal-item-wrapper']">
-        <view :class="$style.text">
-          {{ page.text }}
+      <view v-else :class="$style['normal-item-wrapper']" @tap="onClick(index)">
+        <view :class="[$style.text, tabbarStore.selected !== index && $style.translucent]">
+          <text>{{ page.text }}</text>
+          <image v-if="tabbarStore.selected === index" style="width: 26px;height: 26px;" src="@/assets/image/sight.svg" />
         </view>
-        <view :class="$style.border" />
+        <view :class="[$style.border, tabbarStore.selected !== index && $style.translucent]" />
+        <view :class="[$style.dot, tabbarStore.selected !== index && $style.translucent]" />
       </view>
     </template>
   </view>
 </template>
 
 <script setup lang="ts">
-import { useTabbarStore } from '../store/tabbar'
+import { useTabbarStore } from '@/store/tabbar'
 
 const tabbarStore = useTabbarStore()
+
+function onClick(index: number) {
+  tabbarStore.setSelected(index)
+}
 </script>
 
 <style module lang="less">
@@ -30,6 +48,10 @@ const tabbarStore = useTabbarStore()
   text-align: center;
   color: #f6f7f7;
   position: relative;
+}
+
+.translucent {
+  opacity: .5;
 }
 
 .mv-tabbar {
@@ -57,8 +79,11 @@ const tabbarStore = useTabbarStore()
     .text {
       font-size: 24px;
       position: relative;
-      top: 48%;
-      transform: translateY(-50%);
+      width: 100%;
+      height: 96%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     // 往里缩的边框
@@ -72,8 +97,7 @@ const tabbarStore = useTabbarStore()
     }
 
     // 再加4个点，完美复刻
-    &::after {
-      content: '';
+    .dot {
       position: absolute;
       width: var(--depth);
       height: var(--depth);
@@ -95,7 +119,6 @@ const tabbarStore = useTabbarStore()
     --depth: 5px;
 
     .item-wrapper();
-    background-color: #ff4655;
     width: var(--width);
     height: var(--height);
 

@@ -1,4 +1,5 @@
 import type { UserConfigExport } from '@tarojs/cli'
+import * as path from 'node:path'
 import process from 'node:process'
 import NutUIResolver from '@nutui/auto-import-resolver'
 import { defineConfig } from '@tarojs/cli'
@@ -29,6 +30,9 @@ export default defineConfig<'webpack5'>(async (merge, { command: _command, mode:
     },
     sourceRoot: 'src',
     outputRoot: 'dist',
+    alias: {
+      '@': path.resolve(__dirname, '..', 'src'),
+    },
     plugins: ['@tarojs/plugin-html'],
     defineConstants: {
     },
