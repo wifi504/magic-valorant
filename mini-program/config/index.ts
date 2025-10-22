@@ -33,7 +33,10 @@ export default defineConfig<'webpack5'>(async (merge, { command: _command, mode:
     alias: {
       '@': path.resolve(__dirname, '..', 'src'),
     },
-    plugins: ['@tarojs/plugin-html'],
+    plugins: [
+      '@tarojs/plugin-html',
+      '@tarojs/plugin-http',
+    ],
     defineConstants: {
     },
     copy: {

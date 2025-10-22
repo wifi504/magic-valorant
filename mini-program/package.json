@@ -41,6 +41,7 @@
     "@tarojs/helper": "4.1.7",
     "@tarojs/plugin-framework-vue3": "4.1.7",
     "@tarojs/plugin-html": "4.1.7",
+    "@tarojs/plugin-http": "^4.1.7",
     "@tarojs/plugin-platform-alipay": "4.1.7",
     "@tarojs/plugin-platform-h5": "4.1.7",
     "@tarojs/plugin-platform-jd": "4.1.7",
@@ -51,6 +52,7 @@
     "@tarojs/runtime": "4.1.7",
     "@tarojs/shared": "4.1.7",
     "@tarojs/taro": "4.1.7",
+    "axios": "^1.12.2",
     "pinia": "^3.0.3",
     "vue": "^3.3.0"
   },
