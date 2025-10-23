@@ -55,9 +55,13 @@ function onClick(index: number) {
 }
 
 .mv-tabbar {
-  background-color: #1e4159;
-  border-top: 1px solid #dcdcdc;
-  padding: 16px 32px 66px 32px;
+  background-image: url("@/assets/image/background-tabbar.jpg");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: top center;
+  height: 150px;
+  padding: 0 32px 32px 32px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   align-content: center;

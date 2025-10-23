@@ -74,7 +74,12 @@ export default defineConfig<'webpack5'>(async (merge, { command: _command, mode:
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
         chain.plugin('unplugin-vue-components').use(Components({
-          resolvers: [NutUIResolver({ taro: true })],
+          dirs: ['src/components'],
+          extensions: ['vue'],
+          deep: true,
+          resolvers: [
+            NutUIResolver({ taro: true }),
+          ],
         }))
       },
       // @ts-expect-error 微信配置组件懒加载

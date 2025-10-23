@@ -6,9 +6,9 @@ export default defineAppConfig({
   ],
   window: {
     backgroundTextStyle: 'light',
-    navigationBarBackgroundColor: '#fff',
     navigationBarTitleText: '妙瓦 MagicValorant',
-    navigationBarTextStyle: 'black',
+    navigationBarTextStyle: 'white',
+    navigationBarBackgroundColor: '#023047',
   },
   lazyCodeLoading: 'requiredComponents',
   tabBar: {
