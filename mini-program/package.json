@@ -15,7 +15,7 @@
     "ios >= 8"
   ],
   "scripts": {
-    "build:weapp": "rimraf dist && cross-env NODE_ENV=production taro build --type weapp",
+    "build:weapp": "rimraf dist node_modules/.cache && cross-env NODE_ENV=production taro build --type weapp",
     "dev:weapp": "rimraf dist && taro build --type weapp --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
