@@ -1,4 +1,12 @@
+server:
+  port: 8080
+
 spring:
+  # 数据库数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/magic_valorant
+    username: root
+    password: 1234
   data:
     # Redis 配置
     redis:
@@ -6,13 +14,8 @@ spring:
       port: 6379
       password: 1234
       database: 0
-      lettuce:
-        pool:
-          # 最大连接
-          max-active: 8
-          # 最大空闲连接
-          max-idle: 8
-          # 最小空闲连接
-          min-idle: 0
-          # 等待时间
-          max-wait: 100ms
+
+# 跨域配置
+cors:
+  # 允许访问的源
+  allowed-origins: http://localhost:5173/
