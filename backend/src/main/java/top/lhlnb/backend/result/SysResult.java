@@ -1,4 +1,4 @@
-package top.lhlnb.backend.domain.result;
+package top.lhlnb.backend.result;
 
 import lombok.Getter;
 
@@ -13,7 +13,13 @@ import lombok.Getter;
 @Getter
 public enum SysResult {
 
-    SUCCESS(200, "请求成功");
+    SUCCESS(200, "请求成功"),
+    FAIL(400, "请求失败"),
+    UNAUTHORIZED(401, "无效认证"),
+    FORBIDDEN(403, "拒绝访问"),
+    NOT_FOUND(404, "资源不存在"),
+    METHOD_NOT_ALLOWED(405, "请求方法不允许"),
+    SERVER_ERROR(500, "服务器异常");
 
     private final int code;
     private final String msg;

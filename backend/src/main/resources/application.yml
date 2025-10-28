@@ -50,3 +50,8 @@ cors:
     - X-Forwarded-For
     - X-Real-IP
   allow-credentials: true
+
+# 日志配置
+logging:
+  pattern:
+    console: "[%d{yyyy-MM-dd HH:mm:ss SSS}]%highlight([%-5level])[%15.15t] %cyan(%-45.45logger{40}): %msg%n"

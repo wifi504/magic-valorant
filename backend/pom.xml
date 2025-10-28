@@ -77,6 +77,13 @@
       <artifactId>spring-boot-starter-data-redis</artifactId>
     </dependency>
 
+    <!-- HuTools -->
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-jwt</artifactId>
+      <version>5.8.41</version>
+    </dependency>
+
     <!-- Lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>

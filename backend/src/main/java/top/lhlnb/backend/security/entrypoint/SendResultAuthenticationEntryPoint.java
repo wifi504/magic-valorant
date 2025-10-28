@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import top.lhlnb.backend.result.R;
+import top.lhlnb.backend.result.SysResult;
 
 import java.io.IOException;
 
@@ -25,6 +27,6 @@ public class SendResultAuthenticationEntryPoint implements AuthenticationEntryPo
             HttpServletResponse response,
             AuthenticationException authException
     ) throws IOException, ServletException {
-
+        R.writeResponse(response, R.error(SysResult.UNAUTHORIZED));
     }
 }

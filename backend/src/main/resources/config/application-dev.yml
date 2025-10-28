@@ -19,3 +19,21 @@ spring:
 cors:
   # 允许访问的源
   allowed-origins: http://localhost:5173/
+
+# 日志配置
+logging:
+  level:
+    root: info
+  custom:
+    # 日志文件夹路径
+    path: ./logs
+    # 单个日志文件最大大小
+    max-file-size: 100MB
+    # 保留天数（默认 -1 表示永久保留）
+    max-history: -1
+
+jwt:
+  # JWT 密钥
+  secret: test-secret
+  # 默认有效期(秒)
+  ttl: 60
