@@ -1,7 +1,7 @@
 {
-  "name": "vue-ts-starter",
+  "name": "magic-valorant-web-frontend",
   "type": "module",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -14,6 +14,7 @@
     "gen-routes": "gen-vue-routes"
   },
   "dependencies": {
+    "@ezview/request": "^1.1.2",
     "pinia": "^3.0.3",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1"
@@ -21,13 +22,16 @@
   "devDependencies": {
     "@ezview/eslint-config": "^1.0.0",
     "@ezview/gen-vue-routes": "^1.1.2",
+    "@ezview/vue-component-resolvers": "^1.0.2",
     "@types/node": "^24.2.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.7.0",
     "eslint": "^9.32.0",
     "less": "^4.4.0",
+    "naive-ui": "^2.43.1",
     "typescript": "~5.9.2",
-    "vite": "^7.1.5",
+    "unplugin-vue-components": "^30.0.0",
+    "vite": "^7.1.11",
     "vue-tsc": "^3.0.5"
   }
 }
