@@ -46,8 +46,8 @@ public class R<T> {
     /**
      * 成功响应
      */
-    public static R<String> ok() {
-        return ok("");
+    public static R<Object> ok() {
+        return ok(null);
     }
 
     /**
@@ -55,8 +55,8 @@ public class R<T> {
      *
      * @param msg 响应消息
      */
-    public static R<String> okMsg(String msg) {
-        return R.ok("", msg);
+    public static R<Object> okMsg(String msg) {
+        return R.ok(null, msg);
     }
 
 
@@ -91,8 +91,8 @@ public class R<T> {
      * @param sysResult 系统响应
      * @param msg       业务消息
      */
-    public static R<String> error(SysResult sysResult, String msg) {
-        return error(sysResult, "", msg, "");
+    public static R<Object> error(SysResult sysResult, String msg) {
+        return error(sysResult, "", msg, null);
     }
 
     /**
@@ -102,8 +102,8 @@ public class R<T> {
      * @param code      业务码
      * @param msg       业务消息
      */
-    public static R<String> error(SysResult sysResult, String code, String msg) {
-        return error(sysResult, code, msg, "");
+    public static R<Object> error(SysResult sysResult, String code, String msg) {
+        return error(sysResult, code, msg, null);
     }
 
     /**
@@ -133,8 +133,8 @@ public class R<T> {
      *
      * @param sysResult 系统响应
      */
-    public static R<String> error(SysResult sysResult) {
-        return error(sysResult.getCode(), sysResult.getMsg(), "");
+    public static R<Object> error(SysResult sysResult) {
+        return error(sysResult.getCode(), sysResult.getMsg(), null);
     }
 
     /**

@@ -1,11 +1,13 @@
 package top.lhlnb.backend.exception.handler;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -14,6 +16,9 @@ import top.lhlnb.backend.exception.ArgumentException;
 import top.lhlnb.backend.exception.ServerException;
 import top.lhlnb.backend.result.R;
 import top.lhlnb.backend.result.SysResult;
+
+import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 /**
  * 全局异常处理
@@ -28,7 +33,7 @@ import top.lhlnb.backend.result.SysResult;
 public class GlobalExceptionHandler {
 
     // 401 未登录或无效 Token
-    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    @ExceptionHandler(AuthenticationException.class)
     public R<?> handleAuthError() {
         return R.error(SysResult.UNAUTHORIZED);
     }
@@ -53,20 +58,42 @@ public class GlobalExceptionHandler {
 
     // 请求参数类型不匹配
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public R<?> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException e) {
-        return new ArgumentException("请求参数类型不匹配", e, "001").getResult();
+    public R<?> handleMethodArgumentTypeMismatch(Exception e) {
+        return new ArgumentException("请求参数类型不匹配", e).getResult();
     }
 
-    // 参数校验失败
+    // 参数缺失
+    @ExceptionHandler(MissingRequestValueException.class)
+    public R<?> handleValidation(Exception e) {
+        return new ArgumentException("缺少参数", e).getResult();
+    }
+
+    // 参数校验异常
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public R<?> handleValidation(MethodArgumentNotValidException e) {
-        return new ArgumentException("参数校验失败", e, "002").getResult();
+    public R<?> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
+        String msg = e.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> String.format("字段'%s'%s", error.getField(), error.getDefaultMessage()))
+                .collect(Collectors.joining("；"));
+        return new ArgumentException(msg).getResult();
     }
 
     // 请求体解析失败（JSON 格式错误或字段类型不匹配）
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public R<?> handleHttpMessageNotReadable(HttpMessageNotReadableException e) {
-        return new ArgumentException("请求体解析失败（JSON 格式错误或字段类型不匹配）", e, "003").getResult();
+    @ExceptionHandler(HttpMessageConversionException.class)
+    public R<?> handleHttpMessageNotReadable(Exception e) {
+        return new ArgumentException("请求体字段类型不匹配", e).getResult();
+    }
+
+    // 数据库异常
+    @ExceptionHandler({SQLException.class, DataAccessException.class})
+    public R<?> handleSqlException(Exception e) {
+        Throwable cause = e;
+        while (cause.getCause() != null) {
+            cause = cause.getCause();
+        }
+        log.error("数据库异常：{}", e.getMessage());
+        return R.error(SysResult.INTERNAL_SERVER_ERROR, ServerException.getFormattedMessage(cause));
     }
 
     // 已定义的服务器异常
@@ -79,6 +106,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public R<?> handleOtherErrors(Exception e) {
         log.error("预料之外的异常", e);
-        return R.error(SysResult.SERVER_ERROR, ServerException.getFormattedMessage(e));
+        return R.error(SysResult.INTERNAL_SERVER_ERROR, ServerException.getFormattedMessage(e));
     }
 }

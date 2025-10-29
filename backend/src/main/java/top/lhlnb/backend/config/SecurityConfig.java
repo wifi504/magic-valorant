@@ -52,8 +52,9 @@ public class SecurityConfig {
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 // HTTP 请求鉴权
                 .authorizeHttpRequests(authRegistry -> authRegistry
-                        // 放行公开接口（一级路径接口，如登录等）
+                        // 放行公开接口（一级路径接口、public接口，如登录等）
                         .requestMatchers("/api/*").permitAll()
+                        .requestMatchers("/api/public/**").permitAll()
                         // 其他接口需要认证
                         .anyRequest().authenticated()
                 )

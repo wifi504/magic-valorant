@@ -24,11 +24,11 @@ public class RTest {
 
     @Test
     public void testException() {
-        log.error(new ArgumentException("哦耶~", "301*").getResult().toString());
+        log.error(new ArgumentException("哦耶~", "301").getResult().toString());
         try {
             Integer.parseInt("abc");
         } catch (NumberFormatException e) {
-            log.error(new ArgumentException(e).getResult().toString());
+            log.error(new ArgumentException("非法参数", e, "123").getResult().toString());
         }
     }
 }

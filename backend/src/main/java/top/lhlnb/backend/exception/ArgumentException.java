@@ -12,37 +12,37 @@ import top.lhlnb.backend.result.SysResult;
  */
 public class ArgumentException extends ServerException {
 
-    private String overwriteMsg;
-
-
     public ArgumentException(String message, String code) {
         super(message, code);
-        expResult = SysResult.FAIL;
     }
 
     public ArgumentException(String message) {
         super(message);
-        expResult = SysResult.FAIL;
     }
 
     public ArgumentException(String msg, Throwable cause, String code) {
-        super(cause, code);
-        expResult = SysResult.FAIL;
-        overwriteMsg = msg;
+        super(msg, cause, code);
+    }
+
+    public ArgumentException(String msg, Throwable cause) {
+        super(msg, cause);
     }
 
     public ArgumentException(Throwable cause, String code) {
         super(cause, code);
-        expResult = SysResult.FAIL;
     }
 
     public ArgumentException(Throwable cause) {
         super(cause);
-        expResult = SysResult.FAIL;
+    }
+
+    @Override
+    public SysResult getExpResult() {
+        return SysResult.BAD_REQUEST;
     }
 
     @Override
     public R<?> getResult() {
-        return super.getResult().overwriteMsgPrefix(overwriteMsg);
+        return super.getResult().overwriteMsgPrefix("参数异常").overwriteMsgPrefix(overwriteMsg);
     }
 }

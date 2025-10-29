@@ -3,6 +3,8 @@ package top.lhlnb.backend.domain.entity;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -10,6 +12,7 @@ import lombok.Data;
  * t_user
  */
 @Data
+@Builder
 public class TUser implements Serializable {
     /**
      * 用户ID
