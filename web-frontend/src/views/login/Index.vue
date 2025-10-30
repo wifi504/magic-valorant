@@ -26,6 +26,7 @@
         </n-form-item>
       </n-form>
     </div>
+    <captcha />
   </div>
 </template>
 

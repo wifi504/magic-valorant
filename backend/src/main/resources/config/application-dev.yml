@@ -18,7 +18,7 @@ spring:
 # 跨域配置
 cors:
   # 允许访问的源
-  allowed-origins: http://localhost:5173/
+  allowed-origins: "*"
 
 # 日志配置
 logging:
