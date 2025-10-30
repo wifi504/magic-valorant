@@ -22,7 +22,7 @@ importers:
         version: 4.1.7
       '@tarojs/plugin-framework-vue3':
         specifier: 4.1.7
-        version: 4.1.7(@tarojs/helper@4.1.7)(@tarojs/runner-utils@4.1.7)(@tarojs/runtime@4.1.7)(@tarojs/shared@4.1.7)(vue-loader@17.4.2(@vue/compiler-sfc@3.5.22)(vue@3.5.22(typescript@5.9.3))(webpack@5.94.0(@swc/core@1.3.96)))(vue@3.5.22(typescript@5.9.3))(webpack@5.94.0(@swc/core@1.3.96))
+        version: 4.1.7(@tarojs/helper@4.1.7)(@tarojs/runner-util@4.1.7)(@tarojs/runtime@4.1.7)(@tarojs/shared@4.1.7)(vue-loader@17.4.2(@vue/compiler-sfc@3.5.22)(vue@3.5.22(typescript@5.9.3))(webpack@5.94.0(@swc/core@1.3.96)))(vue@3.5.22(typescript@5.9.3))(webpack@5.94.0(@swc/core@1.3.96))
       '@tarojs/plugin-html':
         specifier: 4.1.7
         version: 4.1.7(@tarojs/helper@4.1.7)(@tarojs/runtime@4.1.7)(@tarojs/shared@4.1.7)

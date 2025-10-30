@@ -1,5 +1,7 @@
-package top.lhlnb.backend.security.utils;
+package top.lhlnb.backend.util;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.exceptions.ValidateException;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.JWTValidator;
@@ -7,6 +9,7 @@ import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import org.springframework.stereotype.Component;
 import top.lhlnb.backend.config.JwtConfig;
+import top.lhlnb.backend.exception.ServerException;
 
 import java.util.Date;
 
@@ -50,15 +53,24 @@ public class JwtUtil {
         try {
             return Long.parseLong(id.toString());
         } catch (NumberFormatException e) {
-            // TODO Exp
-            throw new RuntimeException(e);
+            throw new ServerException("令牌解析异常，请尝试重新登录！");
         }
     }
 
 
-    public void verify(String token) {
-        JWTValidator.of(token)
-                .validateAlgorithm(JWTSignerUtil.hs256(jwtConfig.getSecret().getBytes()))
-                .validateDate();
+    /**
+     * 验证 Token
+     *
+     * @param token Token
+     */
+    public boolean verify(String token) {
+        try {
+            JWTValidator.of(token)
+                    .validateAlgorithm(JWTSignerUtil.hs256(jwtConfig.getSecret().getBytes()))
+                    .validateDate(DateUtil.date());
+        } catch (ValidateException e) {
+            return false;
+        }
+        return true;
     }
 }

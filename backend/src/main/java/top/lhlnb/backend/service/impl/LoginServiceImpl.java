@@ -10,7 +10,7 @@ import top.lhlnb.backend.exception.ServerException;
 import top.lhlnb.backend.mapper.TUserMapper;
 import top.lhlnb.backend.result.R;
 import top.lhlnb.backend.result.SysResult;
-import top.lhlnb.backend.security.utils.JwtUtil;
+import top.lhlnb.backend.util.JwtUtil;
 import top.lhlnb.backend.service.LoginService;
 
 /**
