@@ -1,3 +1,4 @@
+import type { Plugin } from 'vite'
 import { execSync } from 'node:child_process'
 import * as fs from 'node:fs'
 import path from 'node:path'
@@ -7,6 +8,7 @@ import vue from '@vitejs/plugin-vue'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
+import { formatCSSVariableName, themeProxy } from './src/utils/global-theme'
 
 // 注入当前处在的Git提交SHA
 const GIT_SHA = execSync('git rev-parse HEAD').toString().trim()
@@ -31,6 +33,7 @@ export default defineConfig(({ mode, command }) => {
           VIconsResolver(),
         ],
       }),
+      themeCSS(),
     ],
     resolve: {
       alias: {
@@ -52,3 +55,24 @@ export default defineConfig(({ mode, command }) => {
     },
   }
 })
+
+// 自动定义全局CSS主题变量
+function themeCSS(): Plugin {
+  function genCSS(themeObj: Record<string, string>) {
+    const vars = (Object.keys(themeObj) as Array<keyof typeof themeObj>)
+      .map(key => `  ${formatCSSVariableName(key)}: none;`)
+      .join('\n')
+    return `/* 声明全局CSS变量，实际值会动态注入，使用 Vite Plugin 自动生成 */\n:root {\n${vars}\n}\n`
+  }
+
+  return {
+    name: 'vite-plugin-theme-css',
+    configResolved() {
+      const css = genCSS(themeProxy)
+      const outPath = path.resolve(process.cwd(), './src/assets/style/theme-define.css')
+      fs.mkdirSync(path.dirname(outPath), { recursive: true })
+      fs.writeFileSync(outPath, css, 'utf-8')
+      console.log('✨ theme-define.css 已生成')
+    },
+  }
+}

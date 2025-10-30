@@ -1,1 +1,8 @@
 @import "assets/style/normalize.css";
+
+/* root 声明全局CSS变量，实际值会动态注入 */
+@import "assets/style/theme-define.css";
+
+body {
+    background-color: var(--background-color);
+}

@@ -23,4 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-components.d.ts
+# Auto Generated
+src/components.d.ts
+src/assets/style/theme-define.css

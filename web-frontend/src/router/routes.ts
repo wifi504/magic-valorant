@@ -13,4 +13,8 @@ export default [
     path: '/dashboard',
     component: () => import('@/views/dashboard/Index.vue'),
   },
+  {
+    path: '/login',
+    component: () => import('@/views/login/Index.vue'),
+  },
 ] as RouteRecordRaw[]
