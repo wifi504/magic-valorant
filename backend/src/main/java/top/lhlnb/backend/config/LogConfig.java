@@ -70,8 +70,8 @@ public class LogConfig {
         rollingPolicy.setContext(context);
         rollingPolicy.setParent(fileAppender);
 
-        // 命名样式：log_yyyy_MM_dd_i.txt.gz
-        String filePattern = String.format("%s/log_%%d{yyyy_MM_dd}_%%i.gz", path);
+        // 命名样式：log_yyyy_MM_dd_i.log.gz
+        String filePattern = String.format("%s/log_%%d{yyyy_MM_dd}_%%i.log.gz", path);
         rollingPolicy.setFileNamePattern(filePattern);
 
         // 每日 + 按大小触发滚动
