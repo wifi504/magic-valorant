@@ -1,5 +1,5 @@
 CREATE TABLE `t_file`  (
-  `id` bigint NOT NULL COMMENT '文件ID',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '文件ID',
   `upload_user` bigint NULL COMMENT '上传用户ID',
   `object_directory` varchar(255) NOT NULL DEFAULT '' COMMENT '对象目录',
   `object_key` varchar(255) NOT NULL DEFAULT '' COMMENT '对象键(UUID.拓展名)',
@@ -19,7 +19,7 @@ CREATE TABLE `t_file`  (
 ) COMMENT = '文件对象存储表';
 
 CREATE TABLE `t_log_user`  (
-  `id` bigint NOT NULL COMMENT '用户日志ID',
+  `id` varchar(20) NOT NULL COMMENT '用户日志ID',
   `user_id` bigint NULL COMMENT '用户ID',
   `action` varchar(255) NULL COMMENT '操作类型',
   `status` tinyint NULL COMMENT '状态(0=成功;1=失败)',
@@ -49,7 +49,7 @@ CREATE TABLE `t_permission`  (
 ) COMMENT = '权限表';
 
 CREATE TABLE `t_role`  (
-  `id` bigint NOT NULL COMMENT '角色ID',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '角色ID',
   `order_num` int NOT NULL DEFAULT 0 COMMENT '排序顺序',
   `code` varchar(255) NOT NULL COMMENT '角色标识符',
   `name` varchar(255) NOT NULL COMMENT '角色名称',
@@ -90,7 +90,7 @@ CREATE TABLE `t_user_role`  (
 ) COMMENT = '用户-角色关联表';
 
 CREATE TABLE `t_val_agent`  (
-  `id` bigint NOT NULL COMMENT '特工ID',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '特工ID',
   `name` varchar(255) NOT NULL COMMENT '特工正式名称',
   `nickname` varchar(255) NULL COMMENT '玩家常用称呼',
   `avatar` varchar(255) NULL COMMENT '头像图URL',
@@ -99,7 +99,7 @@ CREATE TABLE `t_val_agent`  (
 ) COMMENT = '瓦特工表';
 
 CREATE TABLE `t_val_agent_ability`  (
-  `id` bigint NOT NULL COMMENT '技能ID',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '技能ID',
   `agent_id` bigint NOT NULL COMMENT '特工ID',
   `name` varchar(255) NOT NULL COMMENT '技能名称',
   `nickname` varchar(255) NULL COMMENT '玩家常用称呼',
@@ -120,7 +120,7 @@ CREATE TABLE `t_val_map`  (
 ) COMMENT = '瓦地图池表';
 
 CREATE TABLE `t_val_map_area`  (
-  `id` bigint NOT NULL COMMENT '地图区域ID',
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '地图区域ID',
   `map_id` bigint NOT NULL COMMENT '地图ID',
   `name` varchar(255) NULL COMMENT '区域名',
   `point` varchar(255) NULL COMMENT '标注坐标',
