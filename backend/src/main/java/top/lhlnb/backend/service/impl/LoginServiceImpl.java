@@ -10,8 +10,8 @@ import top.lhlnb.backend.exception.ServerException;
 import top.lhlnb.backend.mapper.TUserMapper;
 import top.lhlnb.backend.result.R;
 import top.lhlnb.backend.result.SysResult;
-import top.lhlnb.backend.util.JwtUtil;
 import top.lhlnb.backend.service.LoginService;
+import top.lhlnb.backend.util.TokenUtil;
 
 /**
  * @author WIFI连接超时
@@ -26,10 +26,10 @@ public class LoginServiceImpl implements LoginService {
     private TUserMapper tUserMapper;
 
     @Resource
-    private JwtUtil jwtUtil;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Resource
-    private BCryptPasswordEncoder passwordEncoder;
+    private TokenUtil tokenUtil;
 
     /**
      * 邮箱登录
@@ -58,7 +58,7 @@ public class LoginServiceImpl implements LoginService {
             throw new ServerException("用户创建失败");
         }
         // 给用户签发 Token
-        String token = jwtUtil.createToken(tUser.getId());
+        String token = tokenUtil.createLoginToken(tUser.getId());
         return R.ok(token);
     }
 }

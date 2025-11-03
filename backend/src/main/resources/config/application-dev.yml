@@ -32,8 +32,10 @@ logging:
     # 保留天数（默认 -1 表示永久保留）
     max-history: -1
 
-jwt:
-  # JWT 密钥
-  secret: test-secret
-  # 默认有效期(秒)
-  ttl: 60
+token:
+  # Token 在 Redis 存放的 key 前缀
+  redis-prefix: token
+  # 发放登录令牌的有效期（秒）
+  login-ttl: 3600
+  # 发放临时令牌的有效期（秒）
+  temp-ttl: 10

@@ -3,7 +3,6 @@ package top.lhlnb.backend.config;
 import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -13,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 import top.lhlnb.backend.security.entrypoint.SendResultAuthenticationEntryPoint;
-import top.lhlnb.backend.security.filter.JwtAuthenticationFilter;
+import top.lhlnb.backend.security.filter.TokenAuthenticationFilter;
 import top.lhlnb.backend.security.handler.SendResultAccessDeniedHandler;
 
 /**
@@ -35,7 +34,7 @@ public class SecurityConfig {
     @Resource
     private CorsConfigurationSource corsConfigurationSource;
     @Resource
-    private JwtAuthenticationFilter jwtAuthenticationFilter;
+    private TokenAuthenticationFilter tokenAuthenticationFilter;
     @Resource
     private SendResultAuthenticationEntryPoint sendResultAuthenticationEntryPoint;
     @Resource
@@ -59,7 +58,7 @@ public class SecurityConfig {
                         // 其他接口需要认证
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(configurer -> configurer
                         // 认证失败处理器（未登录）
                         .authenticationEntryPoint(sendResultAuthenticationEntryPoint)

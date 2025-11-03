@@ -1,9 +1,8 @@
-package top.lhlnb.backend.controller;
+package top.lhlnb.backend.controller._public;
 
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-import top.lhlnb.backend.domain.dto.TestDto;
 import top.lhlnb.backend.domain.dto.login.EmailLoginDto;
 import top.lhlnb.backend.result.R;
 import top.lhlnb.backend.service.LoginService;

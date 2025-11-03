@@ -24,6 +24,14 @@
     from t_user
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectPermissionsCodeByUserId" resultType="java.lang.String">
+    SELECT tp.`code`
+    FROM t_user_role as tur
+           LEFT JOIN t_role_permission as trp on tur.role_id = trp.role_id
+           LEFT JOIN t_permission as tp on trp.permission_id = tp.id
+    WHERE tur.user_id = #{id,jdbcType=BIGINT}
+      AND tp.`code` IS NOT NULL
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_user
     where id = #{id,jdbcType=BIGINT}
