@@ -1,18 +1,15 @@
 <template>
-  <background-container :bg-opacity="0.25">
-    <nut-button @tap="doRequest">
+  <background-container>
+    <profile-card />
+    <nut-button @tap="login.doLogin()">
       微信一键登录
     </nut-button>
   </background-container>
 </template>
 
 <script setup lang="ts">
-import Taro from '@tarojs/taro'
-
-async function doRequest() {
-  const codeRes = await Taro.login()
-  console.log(codeRes.code)
-}
+import ProfileCard from '@/pages/profile/components/ProfileCard.vue'
+import login from '@/service/login'
 </script>
 
 <style module lang="less">
