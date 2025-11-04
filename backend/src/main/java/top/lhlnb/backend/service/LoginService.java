@@ -26,4 +26,11 @@ public interface LoginService {
      * @param emailLoginDto EmailLoginDto
      */
     R<?> registerByEmail(EmailLoginDto emailLoginDto);
+
+    /**
+     * 微信登录
+     *
+     * @param code 微信登录码
+     */
+    R<?> doWechatLogin(String code);
 }

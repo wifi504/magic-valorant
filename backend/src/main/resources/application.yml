@@ -3,7 +3,7 @@ spring:
     name: backend
   profiles:
     # 当前生效的环境配置
-    active: dev
+    active: dev, dev-local
   # 数据库数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

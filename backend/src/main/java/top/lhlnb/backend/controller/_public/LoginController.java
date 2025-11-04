@@ -27,6 +27,17 @@ public class LoginController {
         return loginService.doEmailLogin(emailLoginDto);
     }
 
+    /**
+     * 微信登录
+     *
+     * @param code 微信登录码
+     * @return 用户登录令牌
+     */
+    @GetMapping("/wechatLogin")
+    public R<?> wechatLogin(@RequestParam String code) {
+        return loginService.doWechatLogin(code);
+    }
+
     @PostMapping("/register")
     public R<?> register(@Valid @RequestBody EmailLoginDto emailLoginDto) {
         return loginService.registerByEmail(emailLoginDto);

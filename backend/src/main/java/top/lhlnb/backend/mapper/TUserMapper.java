@@ -20,4 +20,6 @@ public interface TUserMapper {
     int updateByPrimaryKey(TUser record);
 
     List<String> selectPermissionsCodeByUserId(Long id);
+
+    TUser selectByWxOpenId(String openId);
 }
