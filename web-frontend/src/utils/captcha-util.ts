@@ -64,17 +64,21 @@ export interface Style {
 }
 
 export async function loadTAC(config: Config, style: Style) {
-  // 动态加载 TAC
-  await new Promise<void>((resolve, reject) => {
-    const script = document.createElement('script')
-    script.src = `${import.meta.env.VITE_BASEURL}/tac/load.min.js`
-    script.async = true
-    script.onload = () => resolve()
-    script.onerror = () => reject(new Error('TAC 加载失败'))
-    document.head.appendChild(script)
-  })
-
   const win = window as any
+
+  // 已经加载就不加载了
+  if (!win.initTAC) {
+    // 动态加载 TAC
+    await new Promise<void>((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = `${import.meta.env.VITE_BASEURL}/tac/load.min.js`
+      script.async = true
+      script.onload = () => resolve()
+      script.onerror = () => reject(new Error('TAC 加载失败'))
+      document.head.appendChild(script)
+    })
+  }
+
   if (!win.initTAC) {
     throw new Error('TAC 加载失败')
   }

@@ -10,7 +10,7 @@
           <n-input placeholder="请输入密码" />
         </n-form-item>
         <n-form-item label="验证码">
-          <n-button style="flex: 1;">
+          <n-button style="flex: 1;" @click="captchaRef.doVerify().then(console.log)">
             点击验证
           </n-button>
         </n-form-item>
@@ -26,12 +26,14 @@
         </n-form-item>
       </n-form>
     </div>
-    <captcha />
+    <captcha-modal ref="captchaRef" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 
+const captchaRef = ref()
 </script>
 
 <style scoped lang="less">

@@ -1,25 +1,33 @@
 <template>
-  <div>
-    <n-button @click="btnClick">
-      加载验证码
-    </n-button>
-    <div
-      id="captcha-box" :style="{
-        '--bar-color': loadingBarStyle.color,
-        '--bar-bg-color': loadingBarStyle.bgColor,
-      }"
-    />
-  </div>
+  <div
+    id="captcha-box" :style="{
+      '--bar-color': loadingBarStyle.color,
+      '--bar-bg-color': loadingBarStyle.bgColor,
+    }"
+  />
 </template>
 
 <script setup lang="ts">
 import type { TAC } from '@/utils/captcha-util.ts'
-import { onBeforeMount } from 'vue'
+import { onMounted } from 'vue'
 import { loadTAC } from '@/utils/captcha-util.ts'
+import debounce from '@/utils/debounce.ts'
+
+interface PromiseAction {
+  resolve: (value: unknown) => void
+  reject: (reason?: any) => void
+}
+
+const promiseAction: PromiseAction = {
+  resolve: (_) => {},
+  reject: (_) => {},
+}
 
 let tac: TAC
 
-onBeforeMount(async () => {
+const debounceReload = debounce((tac: TAC) => tac.reloadCaptcha(), 500)
+
+onMounted(async () => {
   tac = await loadTAC({
     // 生成接口 (必选项,必须配置, 要符合tianai-captcha默认验证码生成接口规范)
     requestCaptchaDataUrl: `${import.meta.env.VITE_REQUEST_BASE_URL}/public/captcha/gen`,
@@ -28,27 +36,24 @@ onBeforeMount(async () => {
     // 验证码绑定的div块 (必选项,必须配置)
     bindEl: '#captcha-box',
     // 验证成功回调函数(必选项,必须配置)
-    validSuccess: (res, ctx, tac) => {
+    validSuccess: (res, _ctx, tac) => {
       // 销毁验证码服务
       tac.destroyWindow()
-      console.log('验证成功，后端返回的数据为', res, ctx, tac)
-      // 调用具体的login方法
+      promiseAction.resolve(res.data.token ?? '')
     },
     // 验证失败的回调函数(可忽略，如果不自定义 validFail 方法时，会使用默认的)
-    validFail: (res, ctx, tac) => {
-      console.log('验证码验证失败回调...', res, ctx, tac)
+    validFail: (_res, _ctx, tac) => {
       // 验证失败后重新拉取验证码
-      tac.reloadCaptcha()
+      debounceReload(tac)
     },
     // 刷新按钮回调事件
-    btnRefreshFun: (el, tac) => {
-      console.log('刷新按钮触发事件...', el, tac)
-      tac.reloadCaptcha()
+    btnRefreshFun: (_el, tac) => {
+      debounceReload(tac)
     },
     // 关闭按钮回调事件
-    btnCloseFun: (el, tac) => {
-      console.log('关闭按钮触发事件...', el, tac)
+    btnCloseFun: (_el, tac) => {
       tac.destroyWindow()
+      promiseAction.reject('验证码校验失败')
     },
   }, {
     // 按钮样式
@@ -61,6 +66,7 @@ onBeforeMount(async () => {
     moveTrackMaskBgColor: '#0c0c0c',
     moveTrackMaskBorderColor: '#000000',
   })
+  tac.init()
 })
 
 // 加载条样式
@@ -69,13 +75,15 @@ const loadingBarStyle = {
   bgColor: '#ff465580',
 }
 
-async function btnClick() {
-  login()
+// 打开弹窗执行验证
+function doVerify() {
+  return new Promise((resolve, reject) => {
+    promiseAction.resolve = resolve
+    promiseAction.reject = reject
+  })
 }
 
-function login() {
-  tac.init()
-}
+defineExpose({ doVerify })
 </script>
 
 <style lang="less">
