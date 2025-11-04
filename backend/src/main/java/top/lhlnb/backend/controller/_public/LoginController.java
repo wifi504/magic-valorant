@@ -28,10 +28,9 @@ public class LoginController {
     }
 
     /**
-     * 微信登录
+     * 微信登录，返回用户登录令牌
      *
      * @param code 微信登录码
-     * @return 用户登录令牌
      */
     @GetMapping("/wechatLogin")
     public R<?> wechatLogin(@RequestParam String code) {
