@@ -6,6 +6,7 @@ import cloud.tianai.captcha.common.response.ApiResponse;
 import cloud.tianai.captcha.validator.common.model.dto.ImageCaptchaTrack;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
+import top.lhlnb.backend.util.TokenUtil;
 
 import java.util.Collections;
 
@@ -21,6 +22,9 @@ public class CaptchaController {
 
     @Resource
     private ImageCaptchaApplication application;
+
+    @Resource
+    private TokenUtil tokenUtil;
 
     /**
      * 生成验证码
@@ -39,8 +43,9 @@ public class CaptchaController {
     public ApiResponse<?> checkCaptcha(@RequestBody Data data) {
         ApiResponse<?> response = application.matching(data.getId(), data.getData());
         if (response.isSuccess()) {
-            // 验证码验证成功，此处应该进行自定义业务处理，或者返回验证token进行二次验证等。
-            return ApiResponse.ofSuccess(Collections.singletonMap("validToken", data.getId()));
+            // 验证成功，生成临时token
+            String token = tokenUtil.createToken();
+            return ApiResponse.ofSuccess(Collections.singletonMap("token", token));
         }
         return response;
     }
@@ -51,6 +56,5 @@ public class CaptchaController {
         private String id;
         // 验证码数据
         private ImageCaptchaTrack data;
-        // 可以加用户自定义业务参数...
     }
 }

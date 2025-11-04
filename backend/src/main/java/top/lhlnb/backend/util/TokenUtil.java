@@ -27,6 +27,7 @@ public class TokenUtil {
 
     public static final String USER_PERMISSIONS_PREFIX = "permissions";
     public static final String USER_TOKENS_HOLDER_PREFIX = "user";
+    public static final String TEMP_TOKEN_PREFIX = "temp";
 
     @Resource
     private TokenConfig config;
@@ -79,6 +80,28 @@ public class TokenUtil {
         List<String> list = stringRedisTemplate.opsForList().range(key, 0, -1);
         if (list == null) return;
         list.stream().filter(Objects::nonNull).forEach(token -> stringRedisTemplate.delete(token));
+    }
+
+    /**
+     * 创建临时令牌
+     */
+    public String createToken() {
+        TokenPair tokenPair = genTokenPair();
+        stringRedisTemplate.opsForValue().set(
+                config.getRedisPrefix() + ':' + TEMP_TOKEN_PREFIX + ':' + tokenPair.getHash(),
+                String.valueOf(System.currentTimeMillis()),
+                config.getTempTtl(),
+                TimeUnit.SECONDS
+        );
+        return tokenPair.getToken();
+    }
+
+    /**
+     * 消费临时令牌
+     */
+    public boolean consumeToken(String token) {
+        String key = config.getRedisPrefix() + ':' + TEMP_TOKEN_PREFIX + ':' + DigestUtil.sha256Hex(token);
+        return Boolean.TRUE.equals(stringRedisTemplate.delete(key));
     }
 
     /**

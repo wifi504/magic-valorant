@@ -32,6 +32,7 @@ logging:
     # 保留天数（默认 -1 表示永久保留）
     max-history: -1
 
+# Token 配置
 token:
   # Token 在 Redis 存放的 key 前缀
   redis-prefix: token
@@ -39,3 +40,9 @@ token:
   login-ttl: 3600
   # 发放临时令牌的有效期（秒）
   temp-ttl: 10
+
+# 验证码配置
+captcha:
+  expire:
+    # 验证码过期时间（毫秒）
+    default: 5000

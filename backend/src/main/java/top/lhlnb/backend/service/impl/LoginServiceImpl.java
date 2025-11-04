@@ -38,6 +38,10 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public R<?> doEmailLogin(EmailLoginDto emailLoginDto) {
+        // 校验验证码
+        if (!tokenUtil.consumeToken(emailLoginDto.getToken())) {
+            return R.error(SysResult.BAD_REQUEST, "请完成验证码校验");
+        }
         return R.error(SysResult.NOT_IMPLEMENTED);
     }
 
@@ -48,17 +52,6 @@ public class LoginServiceImpl implements LoginService {
      */
     @Override
     public R<?> registerByEmail(EmailLoginDto emailLoginDto) {
-        TUser tUser = TUser.builder()
-                .email(emailLoginDto.getEmail())
-                .password(passwordEncoder.encode(emailLoginDto.getPassword()))
-                .nickname("瓦学弟_" + RandomUtil.randomString(4))
-                .build();
-        int i = tUserMapper.insertSelective(tUser);
-        if (i != 1) {
-            throw new ServerException("用户创建失败");
-        }
-        // 给用户签发 Token
-        String token = tokenUtil.createLoginToken(tUser.getId());
-        return R.ok(token);
+        return R.error(SysResult.NOT_IMPLEMENTED);
     }
 }
