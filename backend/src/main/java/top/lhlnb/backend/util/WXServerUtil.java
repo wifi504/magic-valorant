@@ -5,6 +5,8 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -33,10 +35,18 @@ public class WXServerUtil {
     private static final String CODE_2_SESSION = "https://api.weixin.qq.com/sns/jscode2session";
 
     @Resource
+    private ApplicationContext context;
+
+    @Resource
     private MiniAppConfig miniAppConfig;
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+
+    @Scheduled(fixedDelay = 3 * 60 * 1000)
+    public void refreshToken() {
+        checkAndRefreshToken();
+    }
 
     /**
      * 检查并刷新微信令牌
@@ -50,19 +60,18 @@ public class WXServerUtil {
             totalTtl = Long.parseLong(stringRedisTemplate.opsForValue().get(ACCESS_TOKEN_TOTAL_TTL_REDIS_KEY));
         } catch (Exception ignore) {
         }
+
         // 2. 如果缓存令牌不存在，或者缓存令牌有效期剩余不到 1/10 ，则请求新的微信令牌并保存
         if (totalTtl == 0 || currentTtl == 0 || currentTtl < totalTtl / 10) {
             fetchAccessToken();
         }
-        String accessToken = stringRedisTemplate.opsForValue().get(ACCESS_TOKEN_REDIS_KEY);
-        String expire = stringRedisTemplate.getExpire(ACCESS_TOKEN_REDIS_KEY, TimeUnit.SECONDS) + "";
-        String total = stringRedisTemplate.opsForValue().get(ACCESS_TOKEN_TOTAL_TTL_REDIS_KEY);
-        log.info("【微信服务端令牌】有效期：{}/{}秒，当前值：{}", expire, total, accessToken);
-    }
-
-    @Scheduled(fixedDelay = 3 * 60 * 1000)
-    public void refreshToken() {
-        checkAndRefreshToken();
+        try {
+            String accessToken = stringRedisTemplate.opsForValue().get(ACCESS_TOKEN_REDIS_KEY);
+            String expire = stringRedisTemplate.getExpire(ACCESS_TOKEN_REDIS_KEY, TimeUnit.SECONDS) + "";
+            String total = stringRedisTemplate.opsForValue().get(ACCESS_TOKEN_TOTAL_TTL_REDIS_KEY);
+            log.info("【微信服务端令牌】有效期：{}/{}秒，当前值：{}", expire, total, accessToken);
+        } catch (Exception ignore) {
+        }
     }
 
     /**
@@ -79,6 +88,11 @@ public class WXServerUtil {
             String res = HttpUtil.get(GET_ACCESS_TOKEN, paramMap, 5000);
             JSONObject jsonRes = JSONUtil.parseObj(res);
             String accessToken = jsonRes.getStr("access_token");
+            if (accessToken == null) {
+                log.error("【微信服务端令牌】获取 AccessToken 失败！");
+                SpringApplication.exit(context, () -> 1);
+                System.exit(1);
+            }
             int expiresIn = Integer.parseInt(jsonRes.getStr("expires_in"));
             // 3. 保存微信令牌
             stringRedisTemplate.opsForValue().set(ACCESS_TOKEN_REDIS_KEY, accessToken, (int) (expiresIn * 0.9), TimeUnit.SECONDS);

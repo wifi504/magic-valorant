@@ -9,6 +9,7 @@ import jakarta.annotation.PreDestroy;
 import jakarta.annotation.Resource;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -63,6 +64,7 @@ public class AliyunOSSConfig {
         try {
             OSS ossClient = applicationContext.getBean(OSS.class);
             ossClient.shutdown();
+        } catch (BeanCreationException ignore) {
         } catch (Exception e) {
             log.error("【阿里云 OSS】释放失败", e);
         }
