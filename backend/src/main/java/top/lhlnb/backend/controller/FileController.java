@@ -1,10 +1,8 @@
 package top.lhlnb.backend.controller;
 
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import top.lhlnb.backend.result.R;
 import top.lhlnb.backend.service.FileService;
@@ -32,5 +30,13 @@ public class FileController {
     @PostMapping("/uploadAvatar")
     public R<?> uploadAvatar(@RequestPart("file") MultipartFile file) {
         return fileService.uploadAvatar(file);
+    }
+
+    /**
+     * 获取文件预签名链接，有效期1秒，直接传递文件URL即可
+     */
+    @GetMapping("/**")
+    public R<?> getFile(HttpServletRequest request) {
+        return fileService.getFilePresignedUrl(request.getRequestURI().substring(10));
     }
 }

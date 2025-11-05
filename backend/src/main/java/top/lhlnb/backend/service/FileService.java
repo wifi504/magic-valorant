@@ -18,4 +18,11 @@ public interface FileService {
      * @param file 文件
      */
     R<?> uploadAvatar(MultipartFile file);
+
+    /**
+     * 获取文件预签名URL
+     *
+     * @param url 文件URL
+     */
+    R<?> getFilePresignedUrl(String url);
 }

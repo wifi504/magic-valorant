@@ -18,4 +18,6 @@ public interface TFileMapper {
     int updateByPrimaryKey(TFile record);
 
     TFile selectByMd5(String md5);
+
+    TFile selectByUrl(String url);
 }

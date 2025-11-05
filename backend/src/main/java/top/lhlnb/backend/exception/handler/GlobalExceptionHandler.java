@@ -11,6 +11,7 @@ import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import top.lhlnb.backend.exception.ArgumentException;
 import top.lhlnb.backend.exception.ServerException;
@@ -57,7 +58,10 @@ public class GlobalExceptionHandler {
     }
 
     // 请求参数类型不匹配
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ExceptionHandler({
+            MethodArgumentTypeMismatchException.class,
+            MultipartException.class
+    })
     public R<?> handleMethodArgumentTypeMismatch(Exception e) {
         return new ArgumentException("请求参数类型不匹配", e).getResult();
     }

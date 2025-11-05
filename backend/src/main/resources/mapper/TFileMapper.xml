@@ -35,6 +35,12 @@
     from t_file
     where file_md5 = #{fileMd5,jdbcType=VARCHAR}
   </select>
+  <select id="selectByUrl" resultType="top.lhlnb.backend.domain.entity.TFile">
+    select
+    <include refid="Base_Column_List" />
+    from t_file
+    where url = #{url,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_file
     where id = #{id,jdbcType=BIGINT}
