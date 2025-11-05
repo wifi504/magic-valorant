@@ -20,6 +20,15 @@ mini-app:
   app-id: app-id
   app-secret: app-secret
 
+# 阿里云OSS配置
+aliyun:
+  oss:
+    region: test-region
+    endpoint: test-endpoint
+    access-key-id: test-access-key-id
+    access-key-secret: test-access-key-secret
+    bucket-name: test-bucket-name
+
 # 跨域配置
 cors:
   # 允许访问的源

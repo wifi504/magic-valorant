@@ -3,7 +3,7 @@ spring:
     name: backend
   profiles:
     # 当前生效的环境配置
-    active: dev, dev-local
+    active: dev, local
   # 数据库数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -26,8 +26,8 @@ spring:
     time-zone: GMT+8
   servlet:
     multipart:
-      max-file-size: 5MB
-      max-request-size: 5MB
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 mybatis:
   configuration:

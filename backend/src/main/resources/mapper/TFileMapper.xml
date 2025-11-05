@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lhlnb.backend.mapper.TFileMapper">
+  <resultMap id="BaseResultMap" type="top.lhlnb.backend.domain.entity.TFile">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="upload_user" jdbcType="BIGINT" property="uploadUser" />
+    <result column="object_directory" jdbcType="VARCHAR" property="objectDirectory" />
+    <result column="object_key" jdbcType="VARCHAR" property="objectKey" />
+    <result column="file_extension" jdbcType="VARCHAR" property="fileExtension" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="permission_code" jdbcType="VARCHAR" property="permissionCode" />
+    <result column="origin_name" jdbcType="VARCHAR" property="originName" />
+    <result column="file_byte_size" jdbcType="BIGINT" property="fileByteSize" />
+    <result column="file_md5" jdbcType="VARCHAR" property="fileMd5" />
+    <result column="download_count" jdbcType="BIGINT" property="downloadCount" />
+    <result column="reference" jdbcType="BIGINT" property="reference" />
+    <result column="upload_timestamp" jdbcType="BIGINT" property="uploadTimestamp" />
+    <result column="ttl" jdbcType="BIGINT" property="ttl" />
+    <result column="deleted_timestamp" jdbcType="BIGINT" property="deletedTimestamp" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, upload_user, object_directory, object_key, file_extension, url, permission_code, 
+    origin_name, file_byte_size, file_md5, download_count, reference, upload_timestamp, 
+    ttl, deleted_timestamp
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_file
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectByMd5" resultType="top.lhlnb.backend.domain.entity.TFile">
+    select
+    <include refid="Base_Column_List" />
+    from t_file
+    where file_md5 = #{fileMd5,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_file
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="top.lhlnb.backend.domain.entity.TFile" useGeneratedKeys="true">
+    insert into t_file (upload_user, object_directory, object_key, 
+      file_extension, url, permission_code, 
+      origin_name, file_byte_size, file_md5, 
+      download_count, reference, upload_timestamp, 
+      ttl, deleted_timestamp)
+    values (#{uploadUser,jdbcType=BIGINT}, #{objectDirectory,jdbcType=VARCHAR}, #{objectKey,jdbcType=VARCHAR}, 
+      #{fileExtension,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{permissionCode,jdbcType=VARCHAR}, 
+      #{originName,jdbcType=VARCHAR}, #{fileByteSize,jdbcType=BIGINT}, #{fileMd5,jdbcType=VARCHAR}, 
+      #{downloadCount,jdbcType=BIGINT}, #{reference,jdbcType=BIGINT}, #{uploadTimestamp,jdbcType=BIGINT}, 
+      #{ttl,jdbcType=BIGINT}, #{deletedTimestamp,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="top.lhlnb.backend.domain.entity.TFile" useGeneratedKeys="true">
+    insert into t_file
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uploadUser != null">
+        upload_user,
+      </if>
+      <if test="objectDirectory != null">
+        object_directory,
+      </if>
+      <if test="objectKey != null">
+        object_key,
+      </if>
+      <if test="fileExtension != null">
+        file_extension,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="permissionCode != null">
+        permission_code,
+      </if>
+      <if test="originName != null">
+        origin_name,
+      </if>
+      <if test="fileByteSize != null">
+        file_byte_size,
+      </if>
+      <if test="fileMd5 != null">
+        file_md5,
+      </if>
+      <if test="downloadCount != null">
+        download_count,
+      </if>
+      <if test="reference != null">
+        reference,
+      </if>
+      <if test="uploadTimestamp != null">
+        upload_timestamp,
+      </if>
+      <if test="ttl != null">
+        ttl,
+      </if>
+      <if test="deletedTimestamp != null">
+        deleted_timestamp,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uploadUser != null">
+        #{uploadUser,jdbcType=BIGINT},
+      </if>
+      <if test="objectDirectory != null">
+        #{objectDirectory,jdbcType=VARCHAR},
+      </if>
+      <if test="objectKey != null">
+        #{objectKey,jdbcType=VARCHAR},
+      </if>
+      <if test="fileExtension != null">
+        #{fileExtension,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionCode != null">
+        #{permissionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="originName != null">
+        #{originName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileByteSize != null">
+        #{fileByteSize,jdbcType=BIGINT},
+      </if>
+      <if test="fileMd5 != null">
+        #{fileMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadCount != null">
+        #{downloadCount,jdbcType=BIGINT},
+      </if>
+      <if test="reference != null">
+        #{reference,jdbcType=BIGINT},
+      </if>
+      <if test="uploadTimestamp != null">
+        #{uploadTimestamp,jdbcType=BIGINT},
+      </if>
+      <if test="ttl != null">
+        #{ttl,jdbcType=BIGINT},
+      </if>
+      <if test="deletedTimestamp != null">
+        #{deletedTimestamp,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.lhlnb.backend.domain.entity.TFile">
+    update t_file
+    <set>
+      <if test="uploadUser != null">
+        upload_user = #{uploadUser,jdbcType=BIGINT},
+      </if>
+      <if test="objectDirectory != null">
+        object_directory = #{objectDirectory,jdbcType=VARCHAR},
+      </if>
+      <if test="objectKey != null">
+        object_key = #{objectKey,jdbcType=VARCHAR},
+      </if>
+      <if test="fileExtension != null">
+        file_extension = #{fileExtension,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionCode != null">
+        permission_code = #{permissionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="originName != null">
+        origin_name = #{originName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileByteSize != null">
+        file_byte_size = #{fileByteSize,jdbcType=BIGINT},
+      </if>
+      <if test="fileMd5 != null">
+        file_md5 = #{fileMd5,jdbcType=VARCHAR},
+      </if>
+      <if test="downloadCount != null">
+        download_count = #{downloadCount,jdbcType=BIGINT},
+      </if>
+      <if test="reference != null">
+        reference = #{reference,jdbcType=BIGINT},
+      </if>
+      <if test="uploadTimestamp != null">
+        upload_timestamp = #{uploadTimestamp,jdbcType=BIGINT},
+      </if>
+      <if test="ttl != null">
+        ttl = #{ttl,jdbcType=BIGINT},
+      </if>
+      <if test="deletedTimestamp != null">
+        deleted_timestamp = #{deletedTimestamp,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.lhlnb.backend.domain.entity.TFile">
+    update t_file
+    set upload_user = #{uploadUser,jdbcType=BIGINT},
+      object_directory = #{objectDirectory,jdbcType=VARCHAR},
+      object_key = #{objectKey,jdbcType=VARCHAR},
+      file_extension = #{fileExtension,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      permission_code = #{permissionCode,jdbcType=VARCHAR},
+      origin_name = #{originName,jdbcType=VARCHAR},
+      file_byte_size = #{fileByteSize,jdbcType=BIGINT},
+      file_md5 = #{fileMd5,jdbcType=VARCHAR},
+      download_count = #{downloadCount,jdbcType=BIGINT},
+      reference = #{reference,jdbcType=BIGINT},
+      upload_timestamp = #{uploadTimestamp,jdbcType=BIGINT},
+      ttl = #{ttl,jdbcType=BIGINT},
+      deleted_timestamp = #{deletedTimestamp,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
