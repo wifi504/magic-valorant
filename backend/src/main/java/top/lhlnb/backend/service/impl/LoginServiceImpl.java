@@ -48,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public R<?> doEmailLogin(EmailLoginDto emailLoginDto) {
         // 校验验证码
-        if (!tokenUtil.consumeToken(emailLoginDto.getToken())) {
+        if (!tokenUtil.consumeToken(emailLoginDto.getCaptcha())) {
             return R.error(SysResult.BAD_REQUEST, "请完成验证码校验");
         }
         return R.error(SysResult.NOT_IMPLEMENTED);
@@ -97,12 +97,12 @@ public class LoginServiceImpl implements LoginService {
             // 3.3 返回用户ID
             return tUser.getId();
         });
-        // 4. 如果用户ID大于0，则执行用户登录
-        if (userId > 0) {
-            String loginToken = tokenUtil.createLoginToken(userId);
-            // 4.1 返回用户登录令牌
-            return R.ok(loginToken);
+        // 4. 执行登录
+        if (userId <= 0) {
+            return R.error(SysResult.INTERNAL_SERVER_ERROR);
         }
-        return R.error(SysResult.INTERNAL_SERVER_ERROR);
+        String loginToken = tokenUtil.createLoginToken(userId);
+        // 4.1 返回用户登录令牌
+        return R.ok(loginToken);
     }
 }

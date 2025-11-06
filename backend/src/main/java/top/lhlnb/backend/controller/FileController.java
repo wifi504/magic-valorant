@@ -33,7 +33,7 @@ public class FileController {
     }
 
     /**
-     * 获取文件预签名链接，有效期1秒，直接传递文件URL即可
+     * 获取文件预签名链接，直接传递文件URL即可
      */
     @GetMapping("/**")
     public R<?> getFile(HttpServletRequest request) {

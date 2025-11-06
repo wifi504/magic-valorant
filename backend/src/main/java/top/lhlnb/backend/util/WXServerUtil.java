@@ -60,17 +60,17 @@ public class WXServerUtil {
             totalTtl = Long.parseLong(stringRedisTemplate.opsForValue().get(ACCESS_TOKEN_TOTAL_TTL_REDIS_KEY));
         } catch (Exception ignore) {
         }
+        log.info("【微信服务端令牌】当前令牌有效期：{}/{}秒", currentTtl, totalTtl);
 
         // 2. 如果缓存令牌不存在，或者缓存令牌有效期剩余不到 1/10 ，则请求新的微信令牌并保存
         if (totalTtl == 0 || currentTtl == 0 || currentTtl < totalTtl / 10) {
             fetchAccessToken();
-        }
-        try {
-            String accessToken = stringRedisTemplate.opsForValue().get(ACCESS_TOKEN_REDIS_KEY);
-            String expire = stringRedisTemplate.getExpire(ACCESS_TOKEN_REDIS_KEY, TimeUnit.SECONDS) + "";
-            String total = stringRedisTemplate.opsForValue().get(ACCESS_TOKEN_TOTAL_TTL_REDIS_KEY);
-            log.info("【微信服务端令牌】有效期：{}/{}秒，当前值：{}", expire, total, accessToken);
-        } catch (Exception ignore) {
+            try {
+                String accessToken = stringRedisTemplate.opsForValue().get(ACCESS_TOKEN_REDIS_KEY);
+                String total = stringRedisTemplate.opsForValue().get(ACCESS_TOKEN_TOTAL_TTL_REDIS_KEY);
+                log.info("【微信服务端令牌】刷新了新的令牌，有效期：{}秒，当前值：{}", total, accessToken);
+            } catch (Exception ignore) {
+            }
         }
     }
 

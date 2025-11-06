@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import top.lhlnb.backend.domain.entity.TFile;
+import top.lhlnb.backend.domain.vo.FileVo;
 import top.lhlnb.backend.exception.ServerException;
 import top.lhlnb.backend.mapper.TFileMapper;
 import top.lhlnb.backend.result.R;
@@ -128,7 +129,12 @@ public class FileServiceImpl implements FileService {
         if (!hasAuthority) {
             return R.error(SysResult.FORBIDDEN);
         }
-        String presignedUrl = aliyunOSSUtil.generatePresignedUrl(url, 10);
-        return R.ok(presignedUrl);
+        String presignedUrl = aliyunOSSUtil.generatePresignedUrl(url, 1);
+        return R.ok(FileVo.builder()
+                .url(presignedUrl)
+                .originName(tFile.getOriginName())
+                .type(tFile.getFileExtension())
+                .size(tFile.getFileByteSize())
+                .build());
     }
 }
